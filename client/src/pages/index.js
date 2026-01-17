@@ -13,6 +13,7 @@ import {
   Grid,
   Typography,
 } from "@mui/material";
+import { CustomCard } from "@/styles/mui/customComponents";
 
 export default function Home() {
   const movies = [
@@ -58,25 +59,7 @@ export default function Home() {
         <Grid container spacing={2} direction="row" justifyContent="center">
           {movies.map((movie) => (
             <Grid size={{ lg: 4, md: 4, sm: 6, xs: 12 }}>
-              <Card>
-                <CardMedia
-                  component="img"
-                  alt="green iguana"
-                  height="220"
-                  image={movie.img}
-                />
-                <CardContent>
-                  <Typography gutterBottom variant="h5" component="div">
-                    {movie.name}
-                  </Typography>
-                  <Typography variant="body2" sx={{ color: "text.secondary" }}>
-                    {movie.desc}
-                  </Typography>
-                </CardContent>
-                <CardActions>
-                  <Button size="small">Learn More</Button>
-                </CardActions>
-              </Card>
+              <CustomCard name={movie.name} image={movie.img} description={movie.desc} />
             </Grid>
           ))}
         </Grid>
