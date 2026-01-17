@@ -1,7 +1,7 @@
 const { Card, CardMedia, CardContent, Typography, CardActions, Button } = require("@mui/material");
 
 export const CustomCard = (props) => (
-  <Card>
+  <Card sx={{ borderRadius: "24px" }}>
     <CardMedia
       component="img"
       alt="green iguana"
