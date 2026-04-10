@@ -9,7 +9,7 @@ export const CustomCard = (props) => (
       image={props.image}
     />
     <CardContent>
-      <Typography gutterBottom variant="h5" component="div">
+      <Typography gutterBottom variant="h4" component="div">
         {props.name}
       </Typography>
       <Typography variant="body2" sx={{ color: "text.secondary" }}>

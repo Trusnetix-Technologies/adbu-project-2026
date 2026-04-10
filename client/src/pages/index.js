@@ -1,5 +1,6 @@
 import Head from "next/head";
 import Link from "next/link";
+import { useState } from "react";
 
 import MyAppBar from "@/components/MyAppBar";
 import {
@@ -19,6 +20,9 @@ import { CustomCard } from "@/styles/mui/customComponents";
 import { darkTheme, lightTheme } from "@/styles/mui/theme";
 
 export default function Home() {
+  // STATE HOOK
+  const [showMovies, setShowMovies] = useState(false);
+
   const movies = [
     {
       name: "Avengers",
@@ -61,8 +65,11 @@ export default function Home() {
         <MyAppBar />
         <Box height="60px" />
         <Container maxWidth="lg">
+          <Button onClick={() => setShowMovies(!showMovies)}>Show/Hide Movies</Button>
+          <Box height="20px" />
+
           <Grid container spacing={2} direction="row" justifyContent="center">
-            {movies.map((movie) => (
+            {showMovies && movies.map((movie) => (
               <Grid size={{ lg: 4, md: 4, sm: 6, xs: 12 }}>
                 <CustomCard
                   name={movie.name}
