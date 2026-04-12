@@ -3,7 +3,7 @@ const mongoose = require("mongoose"); // npm install mongoose
 
 require("dotenv").config(); // Load environment variables. Make sure .env is in .gitignore 
 
-const port = 5001;
+const port = process.env.PORT || 5001;
 
 const app = express();
 app.use(express.json());

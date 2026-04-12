@@ -5,17 +5,28 @@ const Movie = mongoose.model("movies");
 
 module.exports = (app) => {
   // Get Movies
-  app.get("/get/movies", async (req, res) => {
+  app.get("/api/v1/get/movies", async (req, res) => {
     console.log("Get Movies");
 
     const response = await Movie.find();
 
-    res.status(200).json({message: "Movies fetched", response} )
+    res.status(200).json({ message: "Movies fetched", response });
     // res.send(movies);
   });
 
+  // Get One Specific Movie
+  app.get("/api/v1/get/movie/:id", async (req, res) => {
+    console.log("Get One Specific Movie");
+
+    const { id } = req.params;
+
+    const response = await Movie.findById(id);
+
+    res.status(200).json({ message: "Movie fetched", response });
+  });
+
   // Add Movie
-  app.post("/add/movie", async (req, res) => {
+  app.post("/api/v1/add/movie", async (req, res) => {
     console.log("Add Movie");
 
     const { name, img, desc } = req.body;
@@ -30,5 +41,29 @@ module.exports = (app) => {
     const response = await Movie.create(movieFields);
 
     res.status(201).json({ message: "Movie added succesfully.", response });
+  });
+
+  // Update Movie Info
+  app.put("/api/v1/update/movie/:id", async (req, res) => {
+    console.log("Update Movie");
+
+    const { id } = req.params;
+
+    const { name, img, desc } = req.body;
+
+    const response = await Movie.updateOne({ _id: id }, { name, img, desc });
+
+    res.status(201).json({ message: "Movie updated succesfully.", response });
+  });
+
+    // Delete Movie Info
+  app.delete("/api/v1/delete/movie/:id", async (req, res) => {
+    console.log("Delete Movie");
+
+    const { id } = req.params;
+
+    const response = await Movie.findByIdAndDelete(id);
+
+    res.status(201).json({ message: "Movie deleted succesfully.", response });
   });
 };
