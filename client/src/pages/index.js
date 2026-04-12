@@ -1,6 +1,7 @@
 import Head from "next/head";
 import Link from "next/link";
 import { useState } from "react";
+import axios from "axios"; // npm i axios
 
 import MyAppBar from "@/components/MyAppBar";
 import {
@@ -13,6 +14,8 @@ import {
   Container,
   CssBaseline,
   Grid,
+  Skeleton,
+  Stack,
   ThemeProvider,
   Typography,
 } from "@mui/material";
@@ -21,35 +24,26 @@ import { darkTheme, lightTheme } from "@/styles/mui/theme";
 
 export default function Home() {
   // STATE HOOK
-  const [showMovies, setShowMovies] = useState(false);
+  const [showMovies, setShowMovies] = useState(true);
+  const [movies, setMovies] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const movies = [
-    {
-      name: "Avengers",
-      img: "https://imgix.ranker.com/list_img_v2/18864/1998864/original/the-best-the-avengers-quotes",
-      desc: "Directed By Joss Whedon",
-    },
-    {
-      name: "Terminator",
-      img: "https://townsquare.media/site/295/files/2019/10/Terminator-Orion.jpg?w=1200&h=0&zc=1&s=0&a=t&q=89",
-      desc: "Directed By James Cameron",
-    },
-    {
-      name: "Inception",
-      img: "https://images5.alphacoders.com/112/1122037.jpg",
-      desc: "Directed By Chris Nolan",
-    },
-    {
-      name: "Jurassic Park",
-      img: "https://i.ytimg.com/vi/Rc_i5TKdmhs/maxresdefault.jpg",
-      desc: "Directed By Steven Spielberg",
-    },
-    {
-      name: "Superman",
-      img: "https://image.tmdb.org/t/p/original/3rGzY1RaVgWIP4GuOTwdHwHXSgM.jpg",
-      desc: "Directed by James Gunn",
-    },
-  ];
+  // Fetch Movies
+  const fetchMovies = async () => {
+    try {
+      setIsLoading(true);
+      const response = await axios.get("/api/v1/get/movies");
+      console.log("response: ", response.data);
+
+      setMovies(response.data);
+      setIsLoading(false);
+    } catch (error) {
+      console.error("ERROR FETCHING MOVIES: ", error);
+      throw { error: error.message };
+    } finally {
+      console.log("finally");
+    }
+  };
 
   return (
     <>
@@ -65,19 +59,46 @@ export default function Home() {
         <MyAppBar />
         <Box height="60px" />
         <Container maxWidth="lg">
-          <Button onClick={() => setShowMovies(!showMovies)}>Show/Hide Movies</Button>
+          <Button onClick={() => setShowMovies(!showMovies)}>
+            Show/Hide Movies
+          </Button>
           <Box height="20px" />
-
+          <Button onClick={() => fetchMovies()}>Get Movies</Button>
+          <Box height="20px" />
           <Grid container spacing={2} direction="row" justifyContent="center">
-            {showMovies && movies.map((movie) => (
-              <Grid size={{ lg: 4, md: 4, sm: 6, xs: 12 }}>
-                <CustomCard
-                  name={movie.name}
-                  image={movie.img}
-                  description={movie.desc}
-                />
+            {showMovies && movies != null ? (
+              movies.response.map((movie) => (
+                <Grid size={{ lg: 4, md: 4, sm: 6, xs: 12 }}>
+                  <CustomCard
+                    name={movie.name}
+                    image={movie.img}
+                    description={movie.desc}
+                  />
+                </Grid>
+              ))
+            ) : isLoading ? (
+              <Grid
+                container
+                spacing={2}
+                direction="row"
+                justifyContent="center"
+              >
+                {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((item) => (
+                  <Grid size={{ xl: 4, md: 4, xs: 12 }}>
+                    <Stack spacing={1}>
+                      <Skeleton
+                        variant="rectangular"
+                        width={345}
+                        height={320}
+                        sx={{ borderRadius: "24px" }}
+                      />
+                    </Stack>
+                  </Grid>
+                ))}
               </Grid>
-            ))}
+            ) : (
+              <Typography>No Data Found</Typography>
+            )}
           </Grid>
         </Container>
       </ThemeProvider>

@@ -8,9 +8,15 @@ module.exports = (app) => {
   app.get("/api/v1/get/movies", async (req, res) => {
     console.log("Get Movies");
 
-    const response = await Movie.find();
+    try {
+      const response = await Movie.find();
 
-    res.status(200).json({ message: "Movies fetched", response });
+      res.status(200).json({ message: "Movies fetched", response });
+    } catch (error) {
+      console.log("ERROR: ", error);
+      res.status(201).json({ message: "Error: ", error });
+    }
+
     // res.send(movies);
   });
 
@@ -19,10 +25,14 @@ module.exports = (app) => {
     console.log("Get One Specific Movie");
 
     const { id } = req.params;
+    try {
+      const response = await Movie.findById(id);
 
-    const response = await Movie.findById(id);
-
-    res.status(200).json({ message: "Movie fetched", response });
+      res.status(200).json({ message: "Movie fetched", response });
+    } catch (error) {
+      console.log("ERROR: ", error);
+      res.status(201).json({ message: "Error: ", error });
+    }
   });
 
   // Add Movie
@@ -31,16 +41,21 @@ module.exports = (app) => {
 
     const { name, img, desc } = req.body;
 
-    const movie = await Movie.findOne({ name }); // Check if user already exists
-    if (movie) {
-      return res.status(400).json({ message: "Movie already exists!" });
+    try {
+      const movie = await Movie.findOne({ name }); // Check if user already exists
+      if (movie) {
+        return res.status(400).json({ message: "Movie already exists!" });
+      }
+
+      movieFields = { name, desc, img };
+
+      const response = await Movie.create(movieFields);
+
+      res.status(201).json({ message: "Movie added succesfully.", response });
+    } catch (error) {
+      console.log("ERROR: ", error);
+      res.status(201).json({ message: "Error: ", error });
     }
-
-    movieFields = { name, desc, img };
-
-    const response = await Movie.create(movieFields);
-
-    res.status(201).json({ message: "Movie added succesfully.", response });
   });
 
   // Update Movie Info
@@ -50,20 +65,29 @@ module.exports = (app) => {
     const { id } = req.params;
 
     const { name, img, desc } = req.body;
+    try {
+      const response = await Movie.updateOne({ _id: id }, { name, img, desc });
 
-    const response = await Movie.updateOne({ _id: id }, { name, img, desc });
-
-    res.status(201).json({ message: "Movie updated succesfully.", response });
+      res.status(201).json({ message: "Movie updated succesfully.", response });
+    } catch (error) {
+      console.log("ERROR: ", error);
+      res.status(201).json({ message: "Error: ", error });
+    }
   });
 
-    // Delete Movie Info
+  // Delete Movie Info
   app.delete("/api/v1/delete/movie/:id", async (req, res) => {
     console.log("Delete Movie");
 
     const { id } = req.params;
 
-    const response = await Movie.findByIdAndDelete(id);
+    try {
+      const response = await Movie.findByIdAndDelete(id);
 
-    res.status(201).json({ message: "Movie deleted succesfully.", response });
+      res.status(201).json({ message: "Movie deleted succesfully.", response });
+    } catch (error) {
+      console.log("ERROR: ", error);
+      res.status(201).json({ message: "Error: ", error });
+    }
   });
 };
