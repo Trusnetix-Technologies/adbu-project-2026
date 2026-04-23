@@ -1,7 +1,9 @@
 import Head from "next/head";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios"; // npm i axios
+import { useDispatch, useSelector } from "react-redux";
+import { getActiveTheme, selectTheme } from "@/redux/reducers/themeReducer";
 
 import MyAppBar from "@/components/MyAppBar";
 import {
@@ -23,6 +25,14 @@ import { CustomCard } from "@/styles/mui/customComponents";
 import { darkTheme, lightTheme } from "@/styles/mui/theme";
 
 export default function Home() {
+  const dispatch = useDispatch();
+
+  const currentTheme = useSelector(selectTheme).activeTheme;
+
+  useEffect(() => {
+    dispatch(getActiveTheme); // To get the theme from the cookie
+  })
+
   // STATE HOOK
   const [showMovies, setShowMovies] = useState(true);
   const [movies, setMovies] = useState(null);
@@ -47,7 +57,7 @@ export default function Home() {
 
   return (
     <>
-      <ThemeProvider theme={darkTheme}>
+      <ThemeProvider theme={currentTheme === "dark" ? darkTheme : lightTheme}>
         <CssBaseline />
         <Head>
           <title>My Movies</title>
