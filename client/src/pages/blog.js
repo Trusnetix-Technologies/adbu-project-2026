@@ -14,7 +14,7 @@ export default function Blog() {
   const currentTheme = useSelector(selectTheme).activeTheme;
 
   useEffect(() => {
-    dispatch(getActiveTheme); // To get the theme from the cookie
+    dispatch(getActiveTheme()); // To get the theme from the cookie
   });
 
   return (
