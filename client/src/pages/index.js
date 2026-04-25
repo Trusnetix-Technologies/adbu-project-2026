@@ -23,6 +23,7 @@ import {
 } from "@mui/material";
 import { CustomCard } from "@/styles/mui/customComponents";
 import { darkTheme, lightTheme } from "@/styles/mui/theme";
+import { fetchMovies, selectMovies } from "@/redux/reducers/movieReducer";
 
 export default function Home() {
   const dispatch = useDispatch();
@@ -30,30 +31,34 @@ export default function Home() {
   const currentTheme = useSelector(selectTheme).activeTheme;
 
   useEffect(() => {
-    dispatch(getActiveTheme); // To get the theme from the cookie
-  })
+    dispatch(getActiveTheme()); // To get the theme from the cookie
+    dispatch(fetchMovies());
+    // fetchMovies();
+  }, []);
+
+  const movies = useSelector(selectMovies);
 
   // STATE HOOK
-  const [showMovies, setShowMovies] = useState(true);
-  const [movies, setMovies] = useState(null);
+  // const [showMovies, setShowMovies] = useState(true);
+  // const [movies, setMovies] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
   // Fetch Movies
-  const fetchMovies = async () => {
-    try {
-      setIsLoading(true);
-      const response = await axios.get("/api/v1/get/movies");
-      console.log("response: ", response.data);
+  // const fetchMovies = async () => {
+  //   try {
+  //     setIsLoading(true);
+  //     const response = await axios.get("/api/v1/get/movies");
+  //     console.log("response: ", response.data);
 
-      setMovies(response.data);
-      setIsLoading(false);
-    } catch (error) {
-      console.error("ERROR FETCHING MOVIES: ", error);
-      throw { error: error.message };
-    } finally {
-      console.log("finally");
-    }
-  };
+  //     setMovies(response.data);
+  //     setIsLoading(false);
+  //   } catch (error) {
+  //     console.error("ERROR FETCHING MOVIES: ", error);
+  //     throw { error: error.message };
+  //   } finally {
+  //     console.log("finally");
+  //   }
+  // };
 
   return (
     <>
@@ -69,15 +74,15 @@ export default function Home() {
         <MyAppBar />
         <Box height="60px" />
         <Container maxWidth="lg">
-          <Button onClick={() => setShowMovies(!showMovies)}>
+          {/* <Button onClick={() => setShowMovies(!showMovies)}>
             Show/Hide Movies
-          </Button>
+          </Button> */}
           <Box height="20px" />
-          <Button onClick={() => fetchMovies()}>Get Movies</Button>
+          {/* <Button onClick={() => fetchMovies()}>Get Movies</Button> */}
           <Box height="20px" />
           <Grid container spacing={2} direction="row" justifyContent="center">
-            {showMovies && movies != null ? (
-              movies.response.map((movie) => (
+            {movies.loading === "loaded" ? (
+              movies.movies.map((movie) => (
                 <Grid size={{ lg: 4, md: 4, sm: 6, xs: 12 }}>
                   <CustomCard
                     name={movie.name}
