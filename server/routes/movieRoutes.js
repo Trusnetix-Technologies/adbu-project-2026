@@ -1,28 +1,25 @@
 const mongoose = require("mongoose");
 const Movie = mongoose.model("movies");
 
-// const movies = require("../data/movies");
-
 module.exports = (app) => {
   // Get Movies
   app.get("/api/v1/get/movies", async (req, res) => {
-    console.log("Get Movies");
+    console.log("======== GET MOVIES ========");
 
     try {
-      const response = await Movie.find();
+      // response of movies with latest inserted in top and oldest in bottom
+      const response = await Movie.find().sort({ createdAt: -1 });
 
       res.status(200).json({ message: "Movies fetched", response });
     } catch (error) {
       console.log("ERROR: ", error);
       res.status(201).json({ message: "Error: ", error });
     }
-
-    // res.send(movies);
   });
 
   // Get One Specific Movie
   app.get("/api/v1/get/movie/:id", async (req, res) => {
-    console.log("Get One Specific Movie");
+    console.log("======== GET ONE SPECIFIC MOVIE ========");
 
     const { id } = req.params;
     try {
@@ -37,7 +34,7 @@ module.exports = (app) => {
 
   // Add Movie
   app.post("/api/v1/add/movie", async (req, res) => {
-    console.log("Add Movie");
+    console.log("======== ADD MOVIE ========");
 
     const { name, img, desc } = req.body;
 
@@ -47,7 +44,7 @@ module.exports = (app) => {
         return res.status(400).json({ message: "Movie already exists!" });
       }
 
-      movieFields = { name, desc, img };
+      const movieFields = { name, desc, img };
 
       const response = await Movie.create(movieFields);
 
@@ -60,7 +57,7 @@ module.exports = (app) => {
 
   // Update Movie Info
   app.put("/api/v1/update/movie/:id", async (req, res) => {
-    console.log("Update Movie");
+    console.log("======== UPDATE MOVIE ========");
 
     const { id } = req.params;
 
@@ -77,7 +74,7 @@ module.exports = (app) => {
 
   // Delete Movie Info
   app.delete("/api/v1/delete/movie/:id", async (req, res) => {
-    console.log("Delete Movie");
+    console.log("======== DELETE MOVIE ========");
 
     const { id } = req.params;
 

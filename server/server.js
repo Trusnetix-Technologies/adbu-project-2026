@@ -1,28 +1,33 @@
 const express = require("express"); // npm i express
 const mongoose = require("mongoose"); // npm install mongoose
 
-require("dotenv").config(); // Load environment variables. Make sure .env is in .gitignore 
+require("dotenv").config(); // Load environment variables. Make sure .env is in .gitignore
 
 const port = process.env.PORT || 5001;
 
 const app = express();
 app.use(express.json());
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({ extended: true }));
 
-mongoose.connect(process.env.MONGO_URI, {}).then(() => {
+mongoose
+  .connect(process.env.MONGO_URI, {})
+  .then(() => {
     console.log("Connected to MongoDB");
-}).catch((err) => {
+  })
+  .catch((err) => {
     console.log("Error connecting to MongoDB: ", err);
-});
+  });
 
 // Models
 require("./models/Movie");
+require("./models/User");
 
 // Routes
-require("./routes/movieRoutes")(app); 
+require("./routes/authRoutes")(app);
+require("./routes/movieRoutes")(app);
 
 app.listen(port, () => {
-    console.log(`Server is running on Port ${port}`);
+  console.log(`Server is running on Port ${port}`);
 });
 
 // SQL
