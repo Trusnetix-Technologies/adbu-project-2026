@@ -27,3 +27,5 @@ export const loginUser = async (credentails) => {
     console.log("ERROR: ", error);
   }
 };
+
+//  will move /api/v1/auth/me to authReducer

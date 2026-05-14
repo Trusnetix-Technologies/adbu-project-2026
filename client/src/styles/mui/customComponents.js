@@ -1,11 +1,35 @@
-const { Card, CardMedia, CardContent, Typography, CardActions, Button } = require("@mui/material");
+const {
+  Card,
+  CardMedia,
+  CardContent,
+  Typography,
+  CardActions,
+  Button,
+  Stack,
+  IconButton,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+} = require("@mui/material");
 
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+
+// custom card
 export const CustomCard = (props) => (
-  <Card sx={{ borderRadius: "24px" }}>
+  <Card
+    sx={{
+      borderRadius: "24px",
+      display: "flex",
+      flexDirection: "column",
+      height: "100%",
+    }}
+  >
     <CardMedia
       component="img"
       alt="green iguana"
-      height="220"
+      height="350"
       image={props.image}
     />
     <CardContent>
@@ -16,8 +40,25 @@ export const CustomCard = (props) => (
         {props.description}
       </Typography>
     </CardContent>
-    <CardActions>
+    <CardActions sx={{ display: "flex", justifyContent: "space-between" }}>
       <Button size="small">Learn More</Button>
+      <Stack direction="row" spacing="0.5">
+        <IconButton size="small" color="primary" onClick={props.onEdit}>
+          <EditIcon fontSize="small" />
+        </IconButton>
+        <IconButton size="small" color="error" onClick={props.onDelete}>
+          <DeleteIcon fontSize="small" />
+        </IconButton>
+      </Stack>
     </CardActions>
   </Card>
+);
+
+// custom dialog
+export const CustomDialog = ({ open, title, children, actions, maxWidth }) => (
+  <Dialog open={open} maxWidth={maxWidth}>
+    <DialogTitle>{title}</DialogTitle>
+    <DialogContent>{children}</DialogContent>
+    {actions && <DialogActions>{actions}</DialogActions>}
+  </Dialog>
 );

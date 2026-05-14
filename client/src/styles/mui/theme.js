@@ -19,7 +19,7 @@ let lightTheme = createTheme({
     mode: "light",
     background: {
       default: backgroundColour,
-      paper: backgroundColour
+      paper: backgroundColour,
     },
     primary: {
       main: primaryColour,
@@ -39,23 +39,57 @@ let lightTheme = createTheme({
   },
   typography: {
     h1: {
-      fontFamily: 'Montserrat',
+      fontFamily: "Montserrat",
     },
-    fontFamily: 'Montserrat',
+    fontFamily: "Montserrat",
     body1: {
-      fontFamily: 'Raleway',
+      fontFamily: "Raleway",
     },
     body2: {
-      fontFamily: 'Raleway',
+      fontFamily: "Raleway",
     },
     subtitle1: {
-      fontFamily: 'Raleway',
+      fontFamily: "Raleway",
     },
     subtitle2: {
-      fontFamily: 'Raleway',
+      fontFamily: "Raleway",
     },
     button: {
       fontWeight: 500,
+    },
+  },
+  // mui components
+  components: {
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          borderRadius: "20px",
+        },
+      },
+    },
+    MuiTextField: {
+      styleOverrides: {
+        root: {
+          borderRadius: "20px",
+        },
+      },
+    },
+    MuiDialog: {
+      styleOverrides: {
+        paper: {
+          borderRadius: "24px",
+        },
+      },
+    },
+    MuiIconButton: {
+      styleOverrides: {
+        root: {
+          backgroundColor: "rgba(255, 255, 255, 0.05)",
+          "&:hover": {
+            backgroundColor: "rgba(0, 0, 0, 0.1)",
+          },
+        },
+      },
     },
   },
 });
@@ -69,7 +103,6 @@ let darkTheme = createTheme({
     },
     primary: {
       main: primaryColourDark,
-      
     },
     secondary: {
       main: secondaryColourDark,
@@ -86,23 +119,57 @@ let darkTheme = createTheme({
   },
   typography: {
     h1: {
-      fontFamily: 'Montserrat',
+      fontFamily: "Montserrat",
     },
-    fontFamily: 'Montserrat',
+    fontFamily: "Montserrat",
     body1: {
-      fontFamily: 'Raleway',
+      fontFamily: "Raleway",
     },
     body2: {
-      fontFamily: 'Raleway',
+      fontFamily: "Raleway",
     },
     subtitle1: {
-      fontFamily: 'Raleway',
+      fontFamily: "Raleway",
     },
     subtitle2: {
-      fontFamily: 'Raleway',
+      fontFamily: "Raleway",
     },
     button: {
       fontWeight: 500,
+    },
+  },
+  // mui components
+  components: {
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          borderRadius: "20px",
+        },
+      },
+    },
+    MuiTextField: {
+      styleOverrides: {
+        root: {
+          borderRadius: "20px",
+        },
+      },
+    },
+    MuiDialog: {
+      styleOverrides: {
+        paper: {
+          borderRadius: "24px",
+        },
+      },
+    },
+    MuiIconButton: {
+      styleOverrides: {
+        root: {
+          backgroundColor: "rgba(0, 0, 0, 0.5)",
+          "&:hover": {
+            backgroundColor: "rgba(0, 0, 0, 0.1)",
+          },
+        },
+      },
     },
   },
 });
