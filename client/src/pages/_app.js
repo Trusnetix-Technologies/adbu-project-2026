@@ -7,6 +7,7 @@ import { CssBaseline, ThemeProvider } from "@mui/material";
 import { darkTheme, lightTheme } from "@/styles/mui/theme";
 import MyAppBar from "@/components/MyAppBar";
 import { useEffect } from "react";
+import { fetchCurrentUser } from "@/redux/reducers/authReducer";
 
 function ThemeApp({ Component, pageProps }) {
   const dispatch = useDispatch();
@@ -14,7 +15,8 @@ function ThemeApp({ Component, pageProps }) {
   const currentTheme = useSelector(selectTheme).activeTheme;
 
   useEffect(() => {
-    dispatch(getActiveTheme()); // To get the theme from the cookie
+    dispatch(getActiveTheme());
+    dispatch(fetchCurrentUser()); // Fetch current user on app load
   }, []);
 
   return (

@@ -9,7 +9,8 @@ export const registerUser = async (userData) => {
     const response = await axios.post("/api/v1/auth/register", userData);
     return response.data;
   } catch (error) {
-    console.log("ERROR: ", error);
+    if (devMode) console.log("====== REGISTER ERROR ====== ", error);
+    throw error.response?.data || { message: error.message };
   }
 };
 
@@ -24,7 +25,8 @@ export const loginUser = async (credentails) => {
     }
     return response.data;
   } catch (error) {
-    console.log("ERROR: ", error);
+    if (devMode) console.log("====== LOGIN ERROR ====== ", error);
+    throw error.response?.data || { message: error.message };
   }
 };
 

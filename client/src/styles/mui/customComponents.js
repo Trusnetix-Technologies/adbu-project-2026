@@ -42,14 +42,16 @@ export const CustomCard = (props) => (
     </CardContent>
     <CardActions sx={{ display: "flex", justifyContent: "space-between" }}>
       <Button size="small">Learn More</Button>
-      <Stack direction="row" spacing="0.5">
-        <IconButton size="small" color="primary" onClick={props.onEdit}>
-          <EditIcon fontSize="small" />
-        </IconButton>
-        <IconButton size="small" color="error" onClick={props.onDelete}>
-          <DeleteIcon fontSize="small" />
-        </IconButton>
-      </Stack>
+      {props.isAuthenticated && (
+        <Stack direction="row" spacing="0.5">
+          <IconButton size="small" color="primary" onClick={props.onEdit}>
+            <EditIcon fontSize="small" />
+          </IconButton>
+          <IconButton size="small" color="error" onClick={props.onDelete}>
+            <DeleteIcon fontSize="small" />
+          </IconButton>
+        </Stack>
+      )}
     </CardActions>
   </Card>
 );

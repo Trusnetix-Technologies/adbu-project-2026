@@ -21,6 +21,7 @@ import {
   deleteMovie,
   updateMovie,
 } from "@/redux/actions/movieAction";
+import { selectUserAuth } from "@/redux/reducers/authReducer";
 
 export default function Home() {
   const dispatch = useDispatch();
@@ -30,6 +31,9 @@ export default function Home() {
   }, []);
 
   const movies = useSelector(selectMovies);
+
+  const { userAuthData } = useSelector(selectUserAuth);
+  const isAuthenticated = !!userAuthData;
 
   // add/update movie dialog
   const [openMovieDialog, setOpenMovieDialog] = useState(false);
@@ -97,15 +101,17 @@ export default function Home() {
 
       <Box height="30px" />
       <Container maxWidth="lg">
-        <Box display="flex" justifyContent="flex-end" alignItems="center">
-          <Button
-            variant="contained"
-            startIcon={<AddIcon />}
-            onClick={() => handleOpenMovieDialog()}
-          >
-            Add Movie
-          </Button>
-        </Box>
+        {isAuthenticated && (
+          <Box display="flex" justifyContent="flex-end" alignItems="center">
+            <Button
+              variant="contained"
+              startIcon={<AddIcon />}
+              onClick={() => handleOpenMovieDialog()}
+            >
+              Add Movie
+            </Button>
+          </Box>
+        )}
         <Box height="20px" />
         {/* <Button onClick={() => fetchMovies()}>Get Movies</Button> */}
         <Box height="20px" />
@@ -117,6 +123,7 @@ export default function Home() {
                   name={movie.name}
                   image={movie.img}
                   description={movie.desc}
+                  isAuthenticated={isAuthenticated}
                   onEdit={() => handleOpenMovieDialog(movie, true)}
                   onDelete={() => {
                     setDeleteMovieId(movie._id);

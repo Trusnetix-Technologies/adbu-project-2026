@@ -15,10 +15,19 @@ import {
 
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 import LightModeIcon from "@mui/icons-material/LightMode";
+import { logout, selectUserAuth } from "@/redux/reducers/authReducer";
+import { Person } from "@mui/icons-material";
 
 export default function MyAppBar() {
   const currentTheme = useSelector(selectTheme).activeTheme;
   const dispatch = useDispatch();
+
+  const { userAuthData } = useSelector(selectUserAuth);
+  const isAuthenticated = !!userAuthData;
+
+  const handleLogout = () => {
+    dispatch(logout());
+  };
 
   return (
     <AppBar position="sticky">
@@ -44,20 +53,24 @@ export default function MyAppBar() {
               Home
             </Button>
           </Link>
-          <Link href="/login">
-            <Button
-              variant="text"
-              sx={{ color: (theme) => theme.palette.icon.main }}
-            >
-              Login
-            </Button>
-          </Link>
+          {isAuthenticated ? (
+            <IconButton size="large" color="inherit" onClick={handleLogout}>
+              <Person />
+            </IconButton>
+          ) : (
+            <Link href="/login">
+              <Button
+                variant="text"
+                sx={{ color: (theme) => theme.palette.icon.main }}
+              >
+                Login
+              </Button>
+            </Link>
+          )}
           <IconButton
             size="large"
-            edge="start"
             color="inherit"
             aria-label="menu"
-            sx={{ mr: 2 }}
             onClick={() => dispatch(toggleTheme())}
           >
             {currentTheme === "dark" ? <LightModeIcon /> : <DarkModeIcon />}

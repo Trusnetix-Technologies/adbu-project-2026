@@ -12,10 +12,12 @@ import { configureStore } from "@reduxjs/toolkit";
 
 import { themeReducer } from "./reducers/themeReducer";
 import { movieReducer } from "./reducers/movieReducer";
+import authReducer from "./reducers/authReducer";
 
 export const store = configureStore({
   reducer: {
     activeTheme: themeReducer,
-    moviesData: movieReducer
+    moviesData: movieReducer,
+    userAuthData: authReducer,
   },
 });
